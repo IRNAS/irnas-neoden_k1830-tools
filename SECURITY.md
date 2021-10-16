@@ -30,6 +30,9 @@ DenyUsers pi
 2. Enable the firewall with `sudo ufw enable`
 3. Allow the ssh service through the firewall with `sudo ufw allow ssh`
 
+## Configure firewall to allow Neoden local traffic (cameras will not work without this)
+1. Run command `sudo ufw allow from 192.168.1.0/24`
+
 ## Install fail2ban
 1. Install `fail2ban` using `sudo apt install fail2ban`
 2. Copy `jail.conf` to `jail.local` to enable `fail2ban` using
