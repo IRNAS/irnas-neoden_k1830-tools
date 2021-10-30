@@ -2,10 +2,16 @@
 Neoden K1830 is a network controlled machine, using an ethernet switch inside the unit to interconnect various PnP components. The following details have been collected thus-far.
 
 * 192.168.1.100 - Raspberry Pi eth0 - local ethernet with PoE running control software
+* 192.168.1.30 (UDP 8030)
 * 192.168.1.31 (UDP 8031)
 * 192.168.1.32 (UDP 8032)
+* 192.168.1.33 (UDP 8033)
+* 192.168.1.34 (UDP 8034)
 * 192.168.1.35 (UDP 8035)
-* 192.168.1.40 (UDP 8040 and 8140)
+* 192.168.1.40 (UDP 8040, 8140)
+* 192.168.1.41 (UDP 8041, 8141)
+* 192.168.1.42 (UDP 8042, 8142)
+* 192.168.1.43 (UDP 8043, 8143)
 
 ![image](https://user-images.githubusercontent.com/1584734/139555084-8796b364-a976-424d-a748-d2da2b7e7dd4.png)
 ![image](https://user-images.githubusercontent.com/1584734/139555091-bc09ede0-d9da-4385-866e-b560f3f493dd.png)
@@ -55,8 +61,8 @@ Each response is a 29 byte packet, where values are static initially, but are in
 0010   00 00 00 00 00 00 00 00 00 00 00 00 00            .............  
 ```
 
-# Communication with 192.168.1.40
-Every 300ms there is a request from `.100` to `.40` of 3 types, to 8040 port and the stream of data to 8140:
+# Communication with 192.168.1.40/41 and 42/43
+Every 300ms there is a request from `.100` to `.4*` where `*=[0:3]` of 3 types, to 804* port and the stream of data to 814*:
 
 25 byte request:
 ```
@@ -86,7 +92,7 @@ followed by a 6 byte reply:
 0000   01 00 00 01 00 00                                 ......
 ```
 
-and a continuous stream of 484 byte packets for 480 packets to port 8140 over next 45ms, where values seem to be changing:
+For `*=0 *=1:` a continuous stream of 484 byte packets for 480 packets to port `814*` over next 200ms, where values seem to be changing:
 ```
 0000   03 00 00 00 12 13 13 13 13 13 12 12 12 12 12 13   ................
 0010   13 11 13 13 13 11 11 12 12 13 13 14 13 13 12 13   ................
@@ -119,4 +125,6 @@ and a continuous stream of 484 byte packets for 480 packets to port 8140 over ne
 01c0   69 66 68 69 6d 6e 74 72 79 76 7b 77 77 75 70 6e   ifhimntryv{wwupn
 01d0   6f 6e 6b 67 67 68 66 64 64 6a 60 66 67 6a 66 69   onkgghfddj`fgjfi
 01e0   68 66 61 67                                       hfag
-.......
+....
+
+For `*=2 *=3:` a continuous stream of 964 byte packets for 960 packets to port `814*` over next 45ms, where values seem to be changing:
