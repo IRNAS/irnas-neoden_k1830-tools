@@ -8,10 +8,10 @@ Neoden K1830 is a network controlled machine, using an ethernet switch inside th
 * 192.168.1.33 (UDP 8033)
 * 192.168.1.34 (UDP 8034)
 * 192.168.1.35 (UDP 8035)
-* 192.168.1.40 (UDP 8040, 8140)
-* 192.168.1.41 (UDP 8041, 8141)
-* 192.168.1.42 (UDP 8042, 8142)
-* 192.168.1.43 (UDP 8043, 8143)
+* 192.168.1.40 (UDP 8040, 8140) - Left camera
+* 192.168.1.41 (UDP 8041, 8141) - Right camera
+* 192.168.1.42 (UDP 8042, 8142) - Front IC camera
+* 192.168.1.43 (UDP 8043, 8143) - Back IC camera
 
 ![image](https://user-images.githubusercontent.com/1584734/139555084-8796b364-a976-424d-a748-d2da2b7e7dd4.png)
 ![image](https://user-images.githubusercontent.com/1584734/139555091-bc09ede0-d9da-4385-866e-b560f3f493dd.png)
@@ -61,7 +61,7 @@ Each response is a 29 byte packet, where values are static initially, but are in
 0010   00 00 00 00 00 00 00 00 00 00 00 00 00            .............  
 ```
 
-# Communication with 192.168.1.40/41 and 42/43
+# Communication with camera units 192.168.1.40/41 and 42/43
 Every 300ms there is a request from `.100` to `.4*` where `*=[0:3]` of 3 types, to 804* port and the stream of data to 814*:
 
 25 byte request:
@@ -81,9 +81,13 @@ followed by 2 replies of 6 bytes:
 0000   0e 01                                             ..
 ```
 
-7 byte request:
+7 byte image capture request:
 ```
 0000   0f 05 00 01 00 00 00                              .......                                              .
+```
+or
+```
+0000   1b 05 00 01 00 00 00                              .......
 ```
 
 followed by a 6 byte reply:
