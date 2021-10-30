@@ -4,7 +4,7 @@ Neoden K1830 is a network controlled machine, using an ethernet switch inside th
 * 192.168.1.100 - Raspberry Pi eth0 - local ethernet with PoE running control software
 * 192.168.1.30 (UDP 8030)
 * 192.168.1.31 (UDP 8031)
-* 192.168.1.32 (UDP 8032)
+* 192.168.1.32 (UDP 8032) - X/Y motion control
 * 192.168.1.33 (UDP 8033)
 * 192.168.1.34 (UDP 8034)
 * 192.168.1.35 (UDP 8035)
@@ -31,7 +31,7 @@ Each response is a 94 byte packet, where some values appear to be jumping around
 0050   00 00 00 00 00 00 00 00 00 00 00 00 00 00         ..............
 ```
 
-# Communication with 192.168.1.32
+# Communication with 192.168.1.32 - X/Y motion control
 Every 200ms there is a request from `.100` to `.32` of 2 byte length of incremental content of `Data: a100`, where the first byte is an 8 bit or both bytes are a 16 bit sequence number.
 
 Each response is a 36 byte packet, where some values appear to be jumping around the static value from packet to packet, but are in general (full UDP packet, see last 36 bytes): 
@@ -39,6 +39,27 @@ Each response is a 36 byte packet, where some values appear to be jumping around
 0000   00 01 10 12 00 00 00 00 49 0c 04 42 36 5e ff 41   ........I..B6^.A
 0010   00 00 00 00 1e 81 01 44 48 e9 01 44 00 00 00 00   .......DH..D....
 0020   00 60 29 45                                       .`)E
+```
+
+Motion control requests are of 71 bytes length:
+```
+0000   48 04 01 01 00 d9 2e 3d 43 9d 0f b5 43 00 00 61   H......=C...C..a
+0010   44 00 00 61 44 00 a0 8c 45 00 a0 8c 45            D..aD...E...E
+```
+
+```
+0000   0f 04 01 01 00 3e 3a d5 43 d5 08 d3 43 00 00 61   .....>:.C...C..a
+0010   44 00 00 61 44 00 a0 8c 45 00 a0 8c 45            D..aD...E...E
+```
+
+```
+0000   f3 04 01 01 00 18 44 ec 42 6f 82 e0 43 00 00 61   ......D.Bo..C..a
+0010   44 00 00 61 44 00 a0 8c 45 00 a0 8c 45            D..aD...E...E
+```
+
+```
+0000   fb 04 01 01 00 d5 38 65 43 e9 16 a0 43 00 00 61   ......8eC...C..a
+0010   44 00 00 61 44 00 a0 8c 45 00 a0 8c 45            D..aD...E...E
 ```
 
 
