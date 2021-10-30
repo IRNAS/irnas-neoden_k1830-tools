@@ -18,6 +18,10 @@ Neoden K1830 is a network controlled machine, using an ethernet switch inside th
 
 All communication is UDP based, with ports defined uniquely per end-point IP address for bi-directional communication.
 
+# UDP packet format
+The packet format which appears to be used is specific for each endpoint in the network or at least type of equipment at the endpoint. First two bytes appear to serve as a sequence byte as well as a payload type specifier, followed by the payload of various lengths:
+`<sequence byte><payload type><payload of X length>`
+
 # Communication with 192.168.1.31
 Every 200ms there is a request from `.100` to `.31` of 5 byte length of incremental content of `Data: 9201ffffff, Data: 9301000000, Data: 9401ffffff, Data: 9501000000`
 
@@ -41,7 +45,13 @@ Each response is a 36 byte packet, where some values appear to be jumping around
 0020   00 60 29 45                                       .`)E
 ```
 
-Motion control requests are of 71 bytes length:
+Initialize request is 13 bytes long:
+
+```
+0000   a7 03 01 01 00 4c fe 03 42 e3 7f 01 44            .....L..B...D
+```
+
+Motion control requests are of 29 bytes length:
 ```
 0000   48 04 01 01 00 d9 2e 3d 43 9d 0f b5 43 00 00 61   H......=C...C..a
 0010   44 00 00 61 44 00 a0 8c 45 00 a0 8c 45            D..aD...E...E
@@ -62,6 +72,21 @@ Motion control requests are of 71 bytes length:
 0010   44 00 00 61 44 00 a0 8c 45 00 a0 8c 45            D..aD...E...E
 ```
 
+# Communicating with 192.168.1.33 - Feeder 
+Communication only happens upon request, appears that the byte in sequence to trigger the feeder must be set to 01 to trigger it.
+
+Feeder 0 trigger request as a 36 byte packet:
+```
+0000   02 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+0010   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+0020   00 00 00 00                                       ....
+```
+Feeder 1 trigger request as a 36 byte packet:
+```
+0000   04 01 00 01 00 00 00 00 00 00 00 00 00 00 00 00   ................
+0010   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+0020   00 00 00 00                                       ....
+```
 
 # Communication with 192.168.1.35
 Every 200ms there is a request from `.100` to `.35` of 2 byte or 6 byte length of incremental content of `Data: a100`, where the first byte is an 8 bit sequence number and second byte is the payload type of 00 or 01. Sequence numbers are retained from packet to packet type.
