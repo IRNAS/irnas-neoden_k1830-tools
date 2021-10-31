@@ -5,8 +5,8 @@ Neoden K1830 is a network controlled machine, using an ethernet switch inside th
 * 192.168.1.30 (UDP 8030)
 * 192.168.1.31 (UDP 8031)
 * 192.168.1.32 (UDP 8032) - X/Y motion control
-* 192.168.1.33 (UDP 8033)
-* 192.168.1.34 (UDP 8034)
+* 192.168.1.33 (UDP 8033) - Feeder Front (1-33)
+* 192.168.1.34 (UDP 8034) - Feeder Back (34-66)
 * 192.168.1.35 (UDP 8035)
 * 192.168.1.40 (UDP 8040, 8140) - Left camera
 * 192.168.1.41 (UDP 8041, 8141) - Right camera
@@ -72,8 +72,8 @@ Motion control requests are of 29 bytes length:
 0010   44 00 00 61 44 00 a0 8c 45 00 a0 8c 45            D..aD...E...E
 ```
 
-# Communicating with 192.168.1.33 - Feeder 
-Communication only happens upon request, appears that the byte in sequence to trigger the feeder must be set to 01 to trigger it.
+# Communicating with 192.168.1.33/34 - Feeder 
+Communication only happens upon request, appears that the byte in sequence to trigger the feeder must be set to 01 to open the air valve and 255 to close it. Back feeders have things turned around, where position 0 in the array deos nothing and position 1 turns on feeder 66.
 
 Feeder 0 trigger request as a 36 byte packet:
 ```
