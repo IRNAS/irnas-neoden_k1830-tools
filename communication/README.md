@@ -2,12 +2,12 @@
 Neoden K1830 is a network controlled machine, using an ethernet switch inside the unit to interconnect various PnP components. The following details have been collected thus-far.
 
 * 192.168.1.100 - Raspberry Pi eth0 - local ethernet with PoE running control software
-* 192.168.1.30 (UDP 8030)
-* 192.168.1.31 (UDP 8031)
+* 192.168.1.30 (UDP 8030) - tbd - possibly switch itself
+* 192.168.1.31 (UDP 8031) - Head interface
 * 192.168.1.32 (UDP 8032) - X/Y motion control
 * 192.168.1.33 (UDP 8033) - Feeder Front (1-33)
 * 192.168.1.34 (UDP 8034) - Feeder Back (34-66)
-* 192.168.1.35 (UDP 8035)
+* 192.168.1.35 (UDP 8035) - Track control
 * 192.168.1.40 (UDP 8040, 8140) - Left camera
 * 192.168.1.41 (UDP 8041, 8141) - Right camera
 * 192.168.1.42 (UDP 8042, 8142) - Front IC camera
