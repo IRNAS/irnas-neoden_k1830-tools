@@ -12,6 +12,20 @@ Neoden K1830 is a network controlled machine, using an ethernet switch inside th
 * 192.168.1.41 (UDP 8041, 8141) - Right camera
 * 192.168.1.42 (UDP 8042, 8142) - Front IC camera
 * 192.168.1.43 (UDP 8043, 8143) - Back IC camera
+```
+$ arp
+Address                  HWtype  HWaddress           Flags Mask            Iface
+192.168.1.42             ether   02:00:00:22:00:44   C                     eth0
+192.168.1.33             ether   02:00:00:50:00:3d   C                     eth0
+192.168.1.32             ether   02:00:00:1e:00:26   C                     eth0
+192.168.1.35             ether   02:00:00:31:00:2d   C                     eth0
+192.168.1.34             ether   02:00:00:40:00:3f   C                     eth0
+192.168.1.41             ether   02:00:00:2c:00:36   C                     eth0
+192.168.1.40             ether   02:00:00:3f:00:1d   C                     eth0
+192.168.1.31             ether   02:00:00:3b:00:25   C                     eth0
+192.168.1.43             ether   02:00:00:1f:00:28   C                     eth0
+192.168.1.30             ether   02:00:00:4b:00:41   C                     eth0
+```
 
 ![image](https://user-images.githubusercontent.com/1584734/139555084-8796b364-a976-424d-a748-d2da2b7e7dd4.png)
 ![image](https://user-images.githubusercontent.com/1584734/139555091-bc09ede0-d9da-4385-866e-b560f3f493dd.png)
