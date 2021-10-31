@@ -175,6 +175,14 @@ For `*=0 *=1:` a continuous stream of 484 byte packets for 480 packets to port `
 01c0   69 66 68 69 6d 6e 74 72 79 76 7b 77 77 75 70 6e   ifhimntryv{wwupn
 01d0   6f 6e 6b 67 67 68 66 64 64 6a 60 66 67 6a 66 69   onkgghfddj`fgjfi
 01e0   68 66 61 67                                       hfag
-....
+```
 
-For `*=2 *=3:` a continuous stream of 964 byte packets for 960 packets to port `814*` over next 45ms, where values seem to be changing:
+The above data has a 4 byte header, where first two bytes are static `0300` and the second two bytes are a `uint16_t` counter. Most likely each udp packet is thus a one line of a camera image of length 480 bytes and there are then 480 lines, giving a 480x480 image.
+
+
+For `*=2 *=3:` a continuous stream of 964 byte packets for 960 packets to port `814*` over next 45ms, which means that this produces an 960x960 image, following the same pattern.
+
+Example of the decoded camera image of the position calibration marker
+![camera](https://user-images.githubusercontent.com/1584734/139570979-71b1dcfe-73ba-4847-bfab-0bfbaa9150c0.png)
+
+
