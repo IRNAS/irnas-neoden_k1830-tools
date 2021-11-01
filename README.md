@@ -8,3 +8,8 @@ The default configuration of the built-in Raspberry Pi uses default passwords an
 
 [Security configuration](SECURITY.md)
 
+## Operational details
+A closer look at the machine operation has revealed a number of useful details with regards to the implementaiton and features.
+
+[Communication overview](communication/README.md)
+[Scripts for testing](scripts/README.md)

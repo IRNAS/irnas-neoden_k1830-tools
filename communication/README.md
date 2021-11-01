@@ -50,7 +50,7 @@ Each response is a 94 byte packet, where some values appear to be jumping around
 ```
 
 # Communication with 192.168.1.32 - X/Y motion control
-Every 200ms there is a request from `.100` to `.32` of 2 byte length of incremental content of `Data: a100`, where the first byte is an 8 bit or both bytes are a 16 bit sequence number.
+Every 200ms there is a request from `.100` to `.32` of 2 byte length of incremental content of `Data: a100`, where the first byte is an 8 bit sequence number, and the seccond the packet type. Position is implemented as a number of float values values, see [udp_server_motion_status.py](udp_server_motion_status.py) for a prototype of the decoder and [udp_server_motion_move.py](udp_server_motion_move.py) how to encode and send a move command.
 
 Each response is a 36 byte packet, where some values appear to be jumping around the static value from packet to packet, but are in general (full UDP packet, see last 36 bytes): 
 ```
@@ -87,7 +87,7 @@ Motion control requests are of 29 bytes length:
 ```
 
 # Communicating with 192.168.1.33/34 - Feeder 
-Communication only happens upon request, appears that the byte in sequence to trigger the feeder must be set to 01 to open the air valve and 255 to close it. Back feeders have things turned around, where position 0 in the array deos nothing and position 1 turns on feeder 66.
+Communication only happens upon request, appears that the byte in sequence to trigger the feeder must be set to 01 to open the air valve and 255 to close it. Back feeders have things turned around, where position 0 in the array deos nothing and position 1 turns on feeder 66. See [udp_server_feeder.py](udp_server_feeder.py) for an implementation sending a command.
 
 Feeder 0 trigger request as a 36 byte packet:
 ```
@@ -102,7 +102,7 @@ Feeder 1 trigger request as a 36 byte packet:
 0020   00 00 00 00                                       ....
 ```
 
-# Communication with 192.168.1.35
+# Communication with 192.168.1.35 - Track control
 Every 200ms there is a request from `.100` to `.35` of 2 byte or 6 byte length of incremental content of `Data: a100`, where the first byte is an 8 bit sequence number and second byte is the payload type of 00 or 01. Sequence numbers are retained from packet to packet type.
 
 2 byte request:
@@ -122,7 +122,22 @@ Each response is a 29 byte packet, where values are static initially, but are in
 ```
 
 # Communication with camera units 192.168.1.40/41 and 42/43
-Every 300ms there is a request from `.100` to `.4*` where `*=[0:3]` of 3 types, to 804* port and the stream of data to 814*:
+Every 300ms there is a request from `.100` to `.4*` where `*=[0:3]` for a status request. A separate request is sent to camera to capture the image and then another request is sent to get the image.
+
+## Status to port 804*
+
+2 byte request:
+```
+0000   0e 01                                             ..
+```
+
+followed by reply of 6 bytes:
+
+```
+0000   01 01 00 01 00 00                                 ......
+```
+
+## Image capture to port 804*
 
 25 byte request:
 ```
@@ -130,24 +145,18 @@ Every 300ms there is a request from `.100` to `.4*` where `*=[0:3]` of 3 types, 
 0010   00 06 00 00 00 01 00 00 00                        .........
 ```
 
-followed by 2 replies of 6 bytes:
-
+followed by reply of 6 bytes:
 ```
-0000   01 01 00 01 00 00                                 ......
-```
-
-2 byte request:
-```
-0000   0e 01                                             ..
+0000   01 01 01 00 00 00                                 ......
 ```
 
-7 byte image capture request:
+## Image read to port 804* and response on 814*
+
+See [udp_server_camera_request.py](udp_server_camera_request.py) for an implementation sending a the image capture request and [udp_receiver_camera.py](udp_receiver_camera.py) to receive and create the image.
+
+7 byte image read request to 804*:
 ```
 0000   0f 05 00 01 00 00 00                              .......                                              .
-```
-or
-```
-0000   1b 05 00 01 00 00 00                              .......
 ```
 
 followed by a 6 byte reply:
